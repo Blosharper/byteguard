@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.1](https://github.com/Blosharper/byteguard/compare/vite-plugin-byteguard-v0.5.0...vite-plugin-byteguard-v0.5.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* point package metadata to Blosharper/byteguard ([#11](https://github.com/Blosharper/byteguard/issues/11)) ([1df7e40](https://github.com/Blosharper/byteguard/commit/1df7e40e605d789f6c8e5b9e9095a9f633e4b06f))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * byteguard bumped from ^0.5.0 to ^0.5.1
+
 ## [0.5.0](https://github.com/Blosharper/byteguard/compare/vite-plugin-byteguard-v0.4.1...vite-plugin-byteguard-v0.5.0) (2026-09-16)
 
 
