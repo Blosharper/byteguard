@@ -117,7 +117,7 @@ npmjs.com → *package* → **Settings** → **Trusted Publisher** → *GitHub
 Actions*, filled in identically for **`byteguard`** and
 **`vite-plugin-byteguard`**:
 
-- Organization or user: `firejune`
+- Organization or user: `Blosharper`
 - Repository: `byteguard`
 - Workflow filename: `release.yml`
 - Environment name: *blank* (the workflow declares no environment; a value

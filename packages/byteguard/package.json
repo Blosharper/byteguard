@@ -41,7 +41,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/firejune/byteguard.git",
+    "url": "git+https://github.com/Blosharper/byteguard.git",
     "directory": "packages/byteguard"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "vitest": "^4.0.0"
   },
   "bugs": {
-    "url": "https://github.com/firejune/byteguard/issues"
+    "url": "https://github.com/Blosharper/byteguard/issues"
   },
-  "homepage": "https://github.com/firejune/byteguard#readme"
+  "homepage": "https://github.com/Blosharper/byteguard#readme"
 }
