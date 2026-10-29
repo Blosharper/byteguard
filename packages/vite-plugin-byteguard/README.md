@@ -2,7 +2,13 @@
 
 Vite plugin that encodes JavaScript bundles into binary format, preventing casual source code exposure.
 
-**How it works:** At build time, entry JS chunks are encoded into a custom binary format (`.bin`). At runtime, a tiny inline loader (~400B) decodes the binary and executes it via Blob URL. **Zero runtime performance impact** — only the initial decode adds negligible overhead.
+**How it works:** At build time, entry JS chunks are encoded into a custom binary format (`.bin`). At runtime, a small inline loader fetches the binary, decodes it, and executes it via a Blob URL.
+
+**Performance:** the cost sits at load time. Before the entry runs, the page
+fetches the `.bin` and decodes it — and inflates it when `compress: 'gzip'` is
+set — so startup grows with bundle size, algorithm, compression, and device.
+After decoding, the entry runs as ordinary JavaScript. No benchmark is published
+for either phase; measure startup on the devices you ship to.
 
 ## Install
 
@@ -38,7 +44,10 @@ byteguard({
   exclude: [],
 
   // Encoded file extension (default: 'bin')
-  extension: 'bin'
+  extension: 'bin',
+
+  // Also encode worker bundles (default: false) — see Workers below
+  workers: false
 })
 ```
 
@@ -48,7 +57,8 @@ byteguard({
 |------------|----------|------------|
 | Entry JS chunks | ✅ Binary `.bin` | Unreadable on disk |
 | Dynamic import chunks | ❌ `.js` as-is | Use with obfuscator |
-| Web Workers | ❌ `.js` as-is | Use with obfuscator |
+| Web Workers (default) | ❌ `.js` as-is | Use with obfuscator |
+| Web Workers (`workers` option) | ✅ Binary `.bin` | Start with `loadWorker` — see [Workers](#workers) |
 | CSS / Assets | ❌ Untouched | N/A |
 
 > [!TIP]
@@ -96,9 +106,18 @@ builds, where no bridge exists.
 
 ## Workers
 
-`workers: true` encodes emitted worker bundles too; `workers: ['**/*.worker-*.js']`
-names them by pattern. The plugin rewrites the worker's URL in the entry, so
-nothing in the build still points at the deleted `.js`.
+Workers are left alone by default. `workers: true` encodes emitted worker
+bundles too; `workers: ['**/*.worker-*.js']` names them by pattern. A pattern is
+matched against every emitted `.js` asset and non-entry chunk, so keep it narrow
+enough to miss dynamic import chunks, which must stay loadable as JavaScript.
+`exclude` applies to workers as well.
+
+The plugin renames each encoded worker to `.bin` and replaces its
+bundle-relative path (for example `assets/sim.worker-<hash>.js`) wherever that
+string appears in the emitted chunks and workers. A URL Vite writes in another
+form is not rewritten and keeps pointing at the deleted `.js`; one such case,
+with `base: './'`, is tracked in
+[#10](https://github.com/Blosharper/byteguard/issues/10).
 
 An encoded worker cannot be started by the constructor — the browser would
 fetch the `.bin` and parse it as JavaScript. Start it from the page instead:
@@ -127,26 +146,39 @@ the entry loader did, so it needs no configuration of its own.
 
 ## CSP Requirements
 
-ByteGuard requires `'unsafe-inline'` and `blob:` in your Content Security Policy:
+The loader is an inline `<script>` that starts the decoded entry as a module
+from a `blob:` URL, so `script-src` has to let both run. The example allows the
+inline loader with `'unsafe-inline'`:
 
 ```html
 <meta http-equiv="Content-Security-Policy"
   content="script-src 'self' 'unsafe-inline' blob:;" />
+```
+
+- The loader reads the `.bin` with `fetch()`. A policy that restricts
+  `connect-src`, or sets `default-src` without it, has to allow the origin that
+  serves the `.bin` (usually `'self'`).
+- `loadWorker` starts an encoded worker from a `blob:` URL. If the policy sets
+  `worker-src` or `child-src`, include `blob:` there; otherwise `script-src`
+  applies.
+- The Blob URL module path is used when the replaced `<script>` tag has
+  `type="module"`, which is how Vite emits its entry. For a tag without it, the
+  loader runs the code with `new Function`, which also needs `'unsafe-eval'`.
 
 ## How It Works
 
 ```
 Build Time:
-  index.js → [obfuscate] → [XOR encode] → index.bin
+  index.js → [obfuscator, optional] → [gzip, optional] → [XOR / AES-GCM encode] → index.bin
   import('./chunk.js') → import(new URL('assets/chunk.js', document.baseURI).href)
 
 Runtime:
   index.html
-    └─ <script> (inline loader, ~400B)
+    └─ <script> (inline loader)
         ├─ fetch('./assets/index.bin')
-        ├─ XOR decode
+        ├─ XOR / AES-GCM decode (then inflate, if gzipped)
         └─ Blob URL → <script type="module" src="blob:...">
-            └─ V8 executes natively
+            └─ runs as an ordinary module
 ```
 
 Workers load as normal `.js` files unless `workers` is set. The plugin automatically rewrites `import.meta.url` and dynamic `import()` paths so that asset references resolve correctly from the Blob URL execution context. This ensures compatibility with WKWebView (iOS/Capacitor) and other strict module environments.
