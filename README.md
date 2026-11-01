@@ -1,3 +1,12 @@
+![byteguard — Encodes JS bundles into a binary format for casual source code protection.](https://raw.githubusercontent.com/Blosharper/byteguard/main/.github/assets/banner.png)
+
+[![byteguard npm version](https://img.shields.io/npm/v/byteguard)](https://www.npmjs.com/package/byteguard)
+[![byteguard npm downloads](https://img.shields.io/npm/dm/byteguard)](https://www.npmjs.com/package/byteguard)
+[![byteguard license](https://img.shields.io/npm/l/byteguard)](LICENSE)
+[![vite-plugin-byteguard npm version](https://img.shields.io/npm/v/vite-plugin-byteguard)](https://www.npmjs.com/package/vite-plugin-byteguard)
+[![vite-plugin-byteguard npm downloads](https://img.shields.io/npm/dm/vite-plugin-byteguard)](https://www.npmjs.com/package/vite-plugin-byteguard)
+[![vite-plugin-byteguard license](https://img.shields.io/npm/l/vite-plugin-byteguard)](LICENSE)
+
 # byteguard
 
 Encodes JS bundles into a binary format for casual source code protection.

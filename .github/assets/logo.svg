@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1612"/>
+      <stop offset="50%" stop-color="#080b0c"/>
+      <stop offset="100%" stop-color="#180910"/>
+    </linearGradient>
+    <linearGradient id="rimGrad" x1="16" y1="16" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00e5a3"/>
+      <stop offset="50%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#f43f5e"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0" y1="0" x2="0" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34f5c5"/>
+      <stop offset="100%" stop-color="#00b884"/>
+    </linearGradient>
+    <linearGradient id="crimsonGrad" x1="0" y1="0" x2="0" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff5c77"/>
+      <stop offset="100%" stop-color="#e11d48"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffe55c"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer contrast shell (visible on both #ffffff and #000000) -->
+  <rect x="4" y="4" width="248" height="248" rx="52" fill="#070a09" stroke="#1e2926" stroke-width="4"/>
+  <rect x="12" y="12" width="232" height="232" rx="44" fill="url(#bgGrad)" stroke="url(#rimGrad)" stroke-width="8"/>
+
+  <!-- Left JS Curly Brace '{' in Gold -->
+  <path d="M 92 56 H 76 C 64 56 56 64 56 76 V 108 C 56 120 48 128 36 128 C 48 128 56 136 56 148 V 180 C 56 192 64 200 76 200 H 92"
+        stroke="url(#goldGrad)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Transform Chevron -->
+  <path d="M 104 108 L 124 128 L 104 148"
+        stroke="#f1f5f9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right 2x2 Encoded Binary Byte Matrix -->
+  <!-- Top-Left Byte: Emerald -->
+  <rect x="140" y="56" width="36" height="60" rx="10" fill="url(#emeraldGrad)"/>
+  <rect x="152" y="72" width="12" height="28" rx="4" fill="#070a09"/>
+  <!-- Top-Right Byte: Crimson -->
+  <rect x="188" y="56" width="24" height="60" rx="10" fill="url(#crimsonGrad)"/>
+  <!-- Bottom-Left Byte: Crimson -->
+  <rect x="140" y="140" width="24" height="60" rx="10" fill="url(#crimsonGrad)"/>
+  <!-- Bottom-Right Byte: Emerald -->
+  <rect x="176" y="140" width="36" height="60" rx="10" fill="url(#emeraldGrad)"/>
+  <rect x="188" y="156" width="12" height="28" rx="4" fill="#070a09"/>
+</svg>
