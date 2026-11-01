@@ -1,3 +1,9 @@
+![vite-plugin-byteguard — Encodes JS bundles into a binary format for casual source code protection.](https://raw.githubusercontent.com/Blosharper/byteguard/main/.github/assets/banner.png)
+
+[![npm version](https://img.shields.io/npm/v/vite-plugin-byteguard)](https://www.npmjs.com/package/vite-plugin-byteguard)
+[![npm downloads](https://img.shields.io/npm/dm/vite-plugin-byteguard)](https://www.npmjs.com/package/vite-plugin-byteguard)
+[![license](https://img.shields.io/npm/l/vite-plugin-byteguard)](LICENSE)
+
 # vite-plugin-byteguard
 
 Vite plugin that encodes JavaScript bundles into binary format, preventing casual source code exposure.
